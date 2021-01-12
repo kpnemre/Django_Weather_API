@@ -1,11 +1,12 @@
 from os import name
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from decouple import config
 import requests
 from pprint import pprint
 from django.contrib import messages
 from .forms import CityForm
 from .models import City
+import datetime
 # Create your views here.
 
 def index(request):
@@ -38,13 +39,15 @@ def index(request):
         r = requests.get(url.format(city))
         # print(r.status_code)
         content=r.json()
-        pprint(content)
-        
+        # pprint(content)
+        now = datetime.datetime.now()
         weather_data ={
             'city':city.name,
             'temp':content["main"]["temp"],
+            'humidity':content["main"]["humidity"],
             "description":content["weather"][0]["description"],
-            "icon":content["weather"][0]["icon"]
+            "icon":content["weather"][0]["icon"],
+            "speed": content["wind"]["speed"]
             
             
         }
@@ -53,8 +56,18 @@ def index(request):
         context ={
             'city_data':city_data,
             'form':form,
+            'now':now,
        }
     return render(request, "weather/index2.html", context)
+
+# def delete(request,id):
+#     city = get_object_or_404(City, id=id)
+#     if request.method=="POST":
+#         city.delete()
+#         return redirect("home")
+
+#     return render(request, "delete.html")
+
 
 
 # {'base': 'stations',

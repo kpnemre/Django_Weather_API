@@ -1,10 +1,10 @@
 
 from django.urls import path, include
-from .views import index
+from .views import index,delete
 
 urlpatterns = [
     
     path('', index, name='home'),
-    # path("<int:id>/delete", delete, name="delete")
-    # 
+    path("delete/<int:id>", delete, name="delete")
+    
 ]

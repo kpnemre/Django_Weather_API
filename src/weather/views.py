@@ -42,6 +42,7 @@ def index(request):
         # pprint(content)
         now = datetime.datetime.now()
         weather_data ={
+            'id':city.id,
             'city':city.name,
             'temp':content["main"]["temp"],
             'humidity':content["main"]["humidity"],
@@ -60,13 +61,14 @@ def index(request):
        }
     return render(request, "weather/index2.html", context)
 
-# def delete(request,id):
-#     city = get_object_or_404(City, id=id)
-#     if request.method=="POST":
-#         city.delete()
-#         return redirect("home")
-
-#     return render(request, "delete.html")
+def delete(request,id):
+    city = get_object_or_404(City, id=id)
+    print(city)
+    print(id)
+    city.delete()
+    messages.success(request, "City Weather is deleted successfully..")
+    
+    return redirect("home")
 
 
 

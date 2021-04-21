@@ -55,12 +55,12 @@ def index(request):
         }
         city_data.append(weather_data)
         # print(city_data)
-    #     context ={
-    #         'city_data':city_data,
-    #         'form':form,
-    #         'now':now,
-    #    }
-    return render(request, "weather/index2.html", {'city_data':city_data,'form':form,'now':now})
+        context ={
+            'city_data':city_data,
+            'form':form,
+            'now':now,
+       }
+    return render(request, "weather/index2.html", context)
 
 def delete(request,id):
     city = get_object_or_404(City, id=id)
